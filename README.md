@@ -1,4 +1,4 @@
-# HTML Templates demo
+# Shadow DOM demo
 part of Web Components tech talk
 
 

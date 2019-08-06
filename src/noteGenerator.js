@@ -1,15 +1,17 @@
-import "./stickyNote.css";
-
 const snTemplate = document.getElementById('sticky-note-template');
-const snContainer = snTemplate.content.querySelector('#sticky-note-container');
 
 /**
- * Generate a sticky note element and append it to the body
+ * Generate a sticky note element and append it to the body using shadow DOM
  */
 export function generateStickyNote({ text = '', id = new Date().getTime() }) {
-    const node = snContainer.cloneNode(true);
-    //resolve id conflicts if more notes are generated
-    node.setAttribute('id', `${node.getAttribute('id')}-${id}`);
-    node.querySelector('.sticky-note-text').textContent = text;
-    document.body.appendChild(node);
+    const shadowHost = document.createElement('div');
+    shadowHost.setAttribute("id", id);
+    const shadowRoot = shadowHost.attachShadow({mode: "open"});
+    const node = snTemplate.content.cloneNode(true);
+    const stickyNote = node.querySelector('#sticky-note-container');
+    //we won't have to give unique ID anymore because it's already encapsulated
+    //stickyNote.setAttribute('id', `${stickyNote.getAttribute('id')}-${id}`);
+    stickyNote.querySelector('.sticky-note-text').textContent = text;
+    shadowRoot.appendChild(node);
+    document.body.appendChild(shadowHost);
 }
