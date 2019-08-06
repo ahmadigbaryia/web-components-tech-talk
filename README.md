@@ -1,1 +1,4 @@
-# Web Components - tech talk
+# HTML Templates demo
+part of Web Components tech talk
+
+

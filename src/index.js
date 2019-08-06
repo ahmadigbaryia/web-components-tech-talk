@@ -3,6 +3,10 @@ import { generateStickyNote } from './noteGenerator';
 
 const ipsum = new LoremIpsum();
 
+/**
+ * Add a click handler for the generate notes button
+ * Calls the generateStickyNote API with a random paragraph
+ */
 document
     .getElementById('generate-sticky-note')
     .addEventListener('click', () => {

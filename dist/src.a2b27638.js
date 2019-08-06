@@ -351,7 +351,8 @@ function generateStickyNote(_ref) {
       text = _ref$text === void 0 ? '' : _ref$text,
       _ref$id = _ref.id,
       id = _ref$id === void 0 ? new Date().getTime() : _ref$id;
-  var node = snContainer.cloneNode(true);
+  var node = snContainer.cloneNode(true); //resolve id conflicts if more notes are generated
+
   node.setAttribute('id', "".concat(node.getAttribute('id'), "-").concat(id));
   node.querySelector('.sticky-note-text').textContent = text;
   document.body.appendChild(node);
@@ -364,6 +365,11 @@ var _loremIpsumJs = require("@jsilvermist/lorem-ipsum-js");
 var _noteGenerator = require("./noteGenerator");
 
 var ipsum = new _loremIpsumJs.LoremIpsum();
+/**
+ * Add a click handler for the generate notes button
+ * Calls the generateStickyNote API with a random paragraph
+ */
+
 document.getElementById('generate-sticky-note').addEventListener('click', function () {
   var noteLength = Math.random() * 10 + 5;
   (0, _noteGenerator.generateStickyNote)({
