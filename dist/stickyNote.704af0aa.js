@@ -117,191 +117,79 @@ parcelRequire = (function (modules, cache, entry, globalName) {
   }
 
   return newRequire;
-})({"node_modules/@jsilvermist/lorem-ipsum-js/src/lorem-ipsum.js":[function(require,module,exports) {
-"use strict";
+})({"node_modules/parcel-bundler/src/builtins/bundle-url.js":[function(require,module,exports) {
+var bundleURL = null;
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.LoremIpsum = void 0;
-
-/**
- * LoremIpsum
- *
- * @class
- */
-class LoremIpsum {
-  constructor() {
-    /**
-     * Possible words
-     *
-     * @type {Array}
-     */
-    this._words = ['a', 'ac', 'accumsan', 'ad', 'adipiscing', 'aenean', 'aenean', 'aliquam', 'aliquam', 'aliquet', 'amet', 'ante', 'aptent', 'arcu', 'at', 'auctor', 'augue', 'bibendum', 'blandit', 'class', 'commodo', 'condimentum', 'congue', 'consectetur', 'consequat', 'conubia', 'convallis', 'cras', 'cubilia', 'curabitur', 'curabitur', 'curae', 'cursus', 'dapibus', 'diam', 'dictum', 'dictumst', 'dolor', 'donec', 'donec', 'dui', 'duis', 'egestas', 'eget', 'eleifend', 'elementum', 'elit', 'enim', 'erat', 'eros', 'est', 'et', 'etiam', 'etiam', 'eu', 'euismod', 'facilisis', 'fames', 'faucibus', 'felis', 'fermentum', 'feugiat', 'fringilla', 'fusce', 'gravida', 'habitant', 'habitasse', 'hac', 'hendrerit', 'himenaeos', 'iaculis', 'id', 'imperdiet', 'in', 'inceptos', 'integer', 'interdum', 'ipsum', 'justo', 'lacinia', 'lacus', 'laoreet', 'lectus', 'leo', 'libero', 'ligula', 'litora', 'lobortis', 'lorem', 'luctus', 'maecenas', 'magna', 'malesuada', 'massa', 'mattis', 'mauris', 'metus', 'mi', 'molestie', 'mollis', 'morbi', 'nam', 'nec', 'neque', 'netus', 'nibh', 'nisi', 'nisl', 'non', 'nostra', 'nulla', 'nullam', 'nunc', 'odio', 'orci', 'ornare', 'pellentesque', 'per', 'pharetra', 'phasellus', 'placerat', 'platea', 'porta', 'porttitor', 'posuere', 'potenti', 'praesent', 'pretium', 'primis', 'proin', 'pulvinar', 'purus', 'quam', 'quis', 'quisque', 'quisque', 'rhoncus', 'risus', 'rutrum', 'sagittis', 'sapien', 'scelerisque', 'sed', 'sem', 'semper', 'senectus', 'sit', 'sociosqu', 'sodales', 'sollicitudin', 'suscipit', 'suspendisse', 'taciti', 'tellus', 'tempor', 'tempus', 'tincidunt', 'torquent', 'tortor', 'tristique', 'turpis', 'ullamcorper', 'ultrices', 'ultricies', 'urna', 'ut', 'ut', 'varius', 'vehicula', 'vel', 'velit', 'venenatis', 'vestibulum', 'vitae', 'vivamus', 'viverra', 'volutpat', 'vulputate'];
+function getBundleURLCached() {
+  if (!bundleURL) {
+    bundleURL = getBundleURL();
   }
-  /**
-   * Get random number
-   *
-   * @param  {Number} x
-   * @param  {Number} y
-   * @return {Number}
-   */
 
+  return bundleURL;
+}
 
-  _random(x, y) {
-    const rnd = Math.random() * 2 - 1 + (Math.random() * 2 - 1) + (Math.random() * 2 - 1);
-    return Math.round(Math.abs(rnd) * x + y);
+function getBundleURL() {
+  // Attempt to find the URL of the current script and use that as the base URL
+  try {
+    throw new Error();
+  } catch (err) {
+    var matches = ('' + err.stack).match(/(https?|file|ftp|chrome-extension|moz-extension):\/\/[^)\n]+/g);
+
+    if (matches) {
+      return getBaseURL(matches[0]);
+    }
   }
-  /**
-   * Get random number between min and max
-   *
-   * @param  {Number} min (optional) lower result limit
-   * @param  {Number} max (optional) upper result limit
-   * @return {Number}     random number
-   */
 
+  return '/';
+}
 
-  _count(min, max) {
-    let result;
-    if (min && max) result = Math.floor(Math.random() * (max - min + 1) + min);else if (min) result = min;else if (max) result = max;else result = this._random(8, 2);
-    return result;
+function getBaseURL(url) {
+  return ('' + url).replace(/^((?:https?|file|ftp|chrome-extension|moz-extension):\/\/.+)\/[^/]+$/, '$1') + '/';
+}
+
+exports.getBundleURL = getBundleURLCached;
+exports.getBaseURL = getBaseURL;
+},{}],"node_modules/parcel-bundler/src/builtins/css-loader.js":[function(require,module,exports) {
+var bundle = require('./bundle-url');
+
+function updateLink(link) {
+  var newLink = link.cloneNode();
+
+  newLink.onload = function () {
+    link.remove();
+  };
+
+  newLink.href = link.href.split('?')[0] + '?' + Date.now();
+  link.parentNode.insertBefore(newLink, link.nextSibling);
+}
+
+var cssTimeout = null;
+
+function reloadCSS() {
+  if (cssTimeout) {
+    return;
   }
-  /**
-   * Get random words
-   *
-   * @param  {Number} min (optional) minimal words count
-   * @param  {Number} max (optional) maximal words count
-   * @return {Object}     array of random words
-   */
 
+  cssTimeout = setTimeout(function () {
+    var links = document.querySelectorAll('link[rel="stylesheet"]');
 
-  words(min, max) {
-    const result = [];
-
-    const count = this._count(min, max); // get random words
-
-
-    while (result.length < count) {
-      const pos = Math.floor(Math.random() * this._words.length);
-      const rnd = this._words[pos]; // do not allow same word twice in a row
-
-      if (result.length && result[result.length - 1] === rnd) {
-        continue;
+    for (var i = 0; i < links.length; i++) {
+      if (bundle.getBaseURL(links[i].href) === bundle.getBundleURL()) {
+        updateLink(links[i]);
       }
-
-      result.push(rnd);
     }
 
-    return result;
-  }
-  /**
-   * Generate sentence
-   *
-   * @param  {Number} min (optional) minimal words count
-   * @param  {Number} max (optional) maximal words count
-   * @return {String}     sentence
-   */
-
-
-  sentence(min, max) {
-    const words = this.words(min, max); // add comma(s) to sentence
-
-    let index = this._random(6, 2);
-
-    while (index < words.length - 2) {
-      words[index] += ',';
-      index += this._random(6, 2);
-    } // append puctation on end
-
-
-    const punct = '...!?';
-    words[words.length - 1] += punct.charAt(Math.floor(Math.random() * punct.length)); // uppercase first letter
-
-    words[0] = words[0].charAt(0).toUpperCase() + words[0].slice(1);
-    return words.join(' ');
-  }
-  /**
-   * Generate paragraph
-   *
-   * @param  {Number} min (optional) minimal words count
-   * @param  {Number} max (optional) maximal words count
-   * @return {String}     paragraph
-   */
-
-
-  paragraph(min, max) {
-    if (!min && !max) {
-      min = 20;
-      max = 60;
-    }
-
-    const count = this._count(min, max);
-
-    let result = ''; // append sentences until limit is reached
-
-    while (result.slice(0, -1).split(' ').length < count) {
-      result += this.sentence() + ' ';
-    }
-
-    result = result.slice(0, -1); // remove words
-
-    if (result.split(' ').length > count) {
-      const punct = result.slice(-1);
-      result = result.split(' ').slice(0, count).join(' ');
-      result = result.replace(/,$/, '');
-      result += punct;
-    }
-
-    return result;
-  }
-
+    cssTimeout = null;
+  }, 50);
 }
 
-exports.LoremIpsum = LoremIpsum;
-},{}],"src/noteGenerator.js":[function(require,module,exports) {
-"use strict";
+module.exports = reloadCSS;
+},{"./bundle-url":"node_modules/parcel-bundler/src/builtins/bundle-url.js"}],"src/stickyNote.css":[function(require,module,exports) {
+var reloadCSS = require('_css_loader');
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.generateStickyNote = generateStickyNote;
-var snTemplate = document.getElementById('sticky-note-template');
-/**
- * Generate a sticky note element and append it to the body
- */
-
-function generateStickyNote(_ref) {
-  var _ref$text = _ref.text,
-      text = _ref$text === void 0 ? '' : _ref$text,
-      _ref$id = _ref.id,
-      id = _ref$id === void 0 ? new Date().getTime() : _ref$id;
-  var node = snTemplate.content.cloneNode(true);
-  var stickyNote = node.querySelector("#sticky-note-container"); //resolve id conflicts if more notes are generated
-
-  stickyNote.setAttribute('id', "".concat(stickyNote.getAttribute('id'), "-").concat(id));
-  stickyNote.querySelector('.sticky-note-text').textContent = text;
-  document.body.appendChild(node);
-}
-},{}],"src/index.js":[function(require,module,exports) {
-"use strict";
-
-var _loremIpsumJs = require("@jsilvermist/lorem-ipsum-js");
-
-var _noteGenerator = require("./noteGenerator");
-
-var ipsum = new _loremIpsumJs.LoremIpsum();
-/**
- * Add a click handler for the generate notes button
- * Calls the generateStickyNote API with a random paragraph
- */
-
-document.getElementById('generate-sticky-note').addEventListener('click', function () {
-  var noteLength = Math.random() * 10 + 5;
-  (0, _noteGenerator.generateStickyNote)({
-    text: ipsum.paragraph(noteLength)
-  });
-});
-},{"@jsilvermist/lorem-ipsum-js":"node_modules/@jsilvermist/lorem-ipsum-js/src/lorem-ipsum.js","./noteGenerator":"src/noteGenerator.js"}],"node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
+module.hot.dispose(reloadCSS);
+module.hot.accept(reloadCSS);
+},{"_css_loader":"node_modules/parcel-bundler/src/builtins/css-loader.js"}],"node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';
 var OldModule = module.bundle.Module;
@@ -504,5 +392,5 @@ function hmrAcceptRun(bundle, id) {
     return true;
   }
 }
-},{}]},{},["node_modules/parcel-bundler/src/builtins/hmr-runtime.js","src/index.js"], null)
-//# sourceMappingURL=/src.a2b27638.js.map
+},{}]},{},["node_modules/parcel-bundler/src/builtins/hmr-runtime.js"], null)
+//# sourceMappingURL=/stickyNote.704af0aa.js.map
