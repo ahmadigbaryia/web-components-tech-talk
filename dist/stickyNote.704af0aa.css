@@ -52,5 +52,10 @@ p.sticky-note-text {
   box-shadow: 5px 5px 7px rgba(33, 33, 33, 0.7);
 }
 
+:host {
+  display: inline-block; /* by default, custom elements are display: inline */
+  contain: content; /* CSS containment FTW. */
+}
+
 
 /*# sourceMappingURL=/stickyNote.704af0aa.css.map */

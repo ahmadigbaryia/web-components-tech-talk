@@ -1,17 +1,16 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>HTML Template Demo</title>
+    <title>Custom Element Demo</title>
     <meta charset="UTF-8" />
   </head>
   <body>
-    <template id="sticky-note-template">
-      <link rel="stylesheet" href="./src/stickyNote.css">
-      <div id="sticky-note-container" class="sticky-note-container">
-        <p class="sticky-note-text">Note content placeholder</p>
-      </div>
-    </template>
-    <button id="generate-sticky-note">Generate new sticky note</button>
-    <script src="src/index.js"></script>
+    <sticky-note note-title="note title">
+      <span slot="note-content">My new custom element looking good</span>
+    </sticky-note>
+    <sticky-note>
+      <span slot="note-content">This is the second note</span>
+    </sticky-note>
+    <script src="src/stickyNote.js"></script>
   </body>
 </html>

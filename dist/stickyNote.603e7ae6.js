@@ -117,85 +117,136 @@ parcelRequire = (function (modules, cache, entry, globalName) {
   }
 
   return newRequire;
-})({"node_modules/parcel-bundler/src/builtins/bundle-url.js":[function(require,module,exports) {
-var bundleURL = null;
-
-function getBundleURLCached() {
-  if (!bundleURL) {
-    bundleURL = getBundleURL();
-  }
-
-  return bundleURL;
-}
-
-function getBundleURL() {
-  // Attempt to find the URL of the current script and use that as the base URL
-  try {
-    throw new Error();
-  } catch (err) {
-    var matches = ('' + err.stack).match(/(https?|file|ftp|chrome-extension|moz-extension):\/\/[^)\n]+/g);
-
-    if (matches) {
-      return getBaseURL(matches[0]);
-    }
-  }
-
-  return '/';
-}
-
-function getBaseURL(url) {
-  return ('' + url).replace(/^((?:https?|file|ftp|chrome-extension|moz-extension):\/\/.+)\/[^/]+$/, '$1') + '/';
-}
-
-exports.getBundleURL = getBundleURLCached;
-exports.getBaseURL = getBaseURL;
-},{}],"node_modules/parcel-bundler/src/builtins/css-loader.js":[function(require,module,exports) {
-var bundle = require('./bundle-url');
-
-function updateLink(link) {
-  var newLink = link.cloneNode();
-
-  newLink.onload = function () {
-    link.remove();
-  };
-
-  newLink.href = link.href.split('?')[0] + '?' + Date.now();
-  link.parentNode.insertBefore(newLink, link.nextSibling);
-}
-
-var cssTimeout = null;
-
-function reloadCSS() {
-  if (cssTimeout) {
-    return;
-  }
-
-  cssTimeout = setTimeout(function () {
-    var links = document.querySelectorAll('link[rel="stylesheet"]');
-
-    for (var i = 0; i < links.length; i++) {
-      if (bundle.getBaseURL(links[i].href) === bundle.getBundleURL()) {
-        updateLink(links[i]);
-      }
-    }
-
-    cssTimeout = null;
-  }, 50);
-}
-
-module.exports = reloadCSS;
-},{"./bundle-url":"node_modules/parcel-bundler/src/builtins/bundle-url.js"}],"src/stickyNote.css":[function(require,module,exports) {
-var reloadCSS = require('_css_loader');
-
-module.hot.dispose(reloadCSS);
-module.hot.accept(reloadCSS);
-},{"_css_loader":"node_modules/parcel-bundler/src/builtins/css-loader.js"}],"src/index.js":[function(require,module,exports) {
+})({"src/stickyNote.js":[function(require,module,exports) {
 "use strict";
 
-var _stickyNote = _interopRequireDefault(require("./stickyNote"));
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-},{"./stickyNote":"src/stickyNote.css"}],"node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
+function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _wrapNativeSuper(Class) { var _cache = typeof Map === "function" ? new Map() : undefined; _wrapNativeSuper = function _wrapNativeSuper(Class) { if (Class === null || !_isNativeFunction(Class)) return Class; if (typeof Class !== "function") { throw new TypeError("Super expression must either be null or a function"); } if (typeof _cache !== "undefined") { if (_cache.has(Class)) return _cache.get(Class); _cache.set(Class, Wrapper); } function Wrapper() { return _construct(Class, arguments, _getPrototypeOf(this).constructor); } Wrapper.prototype = Object.create(Class.prototype, { constructor: { value: Wrapper, enumerable: false, writable: true, configurable: true } }); return _setPrototypeOf(Wrapper, Class); }; return _wrapNativeSuper(Class); }
+
+function isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
+
+function _construct(Parent, args, Class) { if (isNativeReflectConstruct()) { _construct = Reflect.construct; } else { _construct = function _construct(Parent, args, Class) { var a = [null]; a.push.apply(a, args); var Constructor = Function.bind.apply(Parent, a); var instance = new Constructor(); if (Class) _setPrototypeOf(instance, Class.prototype); return instance; }; } return _construct.apply(null, arguments); }
+
+function _isNativeFunction(fn) { return Function.toString.call(fn).indexOf("[native code]") !== -1; }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+var idCounter = 1;
+var template = document.createElement('template');
+template.innerHTML = "\n<link rel=\"stylesheet\" href=\"https://fonts.googleapis.com/css?family=Caveat&display=swap\" />\n<style>\n    .sticky-note-container {\n        text-decoration: none;\n        color: #000;\n        background: #ffc;\n        display: block;\n        height: 10em;\n        width: 10em;\n        padding: 1em;\n        /* Firefox */\n        -moz-box-shadow: 5px 5px 7px rgba(33, 33, 33, 1);\n        /* Safari+Chrome */\n        -webkit-box-shadow: 5px 5px 7px rgba(33, 33, 33, 0.7);\n        /* Opera */\n        box-shadow: 5px 5px 7px rgba(33, 33, 33, 0.7);\n    }\n    .sticky-note-text {\n        font-family: 'Caveat', cursive;\n    }\n    .note-controls {\n        text-align: right;\n        font-size: 11px;\n        padding-bottom: 5px;\n    }\n    .note-controls > span {\n        cursor: pointer;\n    }\n\n    :host {\n        display: inline-block; /* by default, custom elements are display: inline */\n        contain: content; /* CSS containment FTW. */\n        padding: 5px;\n    }\n</style>\n<div id=\"sticky-note-container\" class=\"sticky-note-container\">\n    <div class=\"note-controls\">\n        <span id=\"delete-note\">X</span>\n    </div>\n    <h1 id=\"note-title\"></h1>\n    <slot name=\"note-content\" class=\"sticky-note-text\"></slot>\n</div>\n";
+
+var StickyNoteElement =
+/*#__PURE__*/
+function (_HTMLElement) {
+  _inherits(StickyNoteElement, _HTMLElement);
+
+  function StickyNoteElement() {
+    var _this;
+
+    _classCallCheck(this, StickyNoteElement);
+
+    _this = _possibleConstructorReturn(this, _getPrototypeOf(StickyNoteElement).call(this));
+
+    _this.attachShadow({
+      mode: 'open'
+    });
+
+    _this.shadowRoot.appendChild(template.content.cloneNode(true));
+
+    _this._deleteButton = _this.shadowRoot.querySelector('#delete-note');
+    _this._noteTitle = _this.shadowRoot.querySelector('#note-title');
+    return _this;
+  }
+
+  _createClass(StickyNoteElement, [{
+    key: "connectedCallback",
+    value: function connectedCallback() {
+      var _this2 = this;
+
+      if (!this.hasAttribute('note-title')) {
+        this._noteTitle.style.display = 'none';
+      }
+
+      if (!this.id) {
+        this.id = "sticky-note-".concat(idCounter++);
+      }
+
+      this._deleteButton.addEventListener('click', function () {
+        _this2.dispatchEvent(new CustomEvent('delete-note', {
+          detail: {
+            id: _this2.id
+          },
+          bubbles: true // important, the default is false, we need this to pierce the shadow dom boundaries
+
+        }));
+      });
+    }
+  }, {
+    key: "disconnectedCallback",
+    value: function disconnectedCallback() {
+      this._deleteButton.removeEventListener('click');
+    }
+  }, {
+    key: "attributeChangedCallback",
+    value: function attributeChangedCallback(name, oldValue, newValue) {
+      if (name === 'note-title') {
+        if (!!newValue) {
+          this._noteTitle.innerText = newValue;
+
+          if (!oldValue) {
+            this._noteTitle.style.display = 'block';
+          }
+        } else {
+          this._noteTitle.innerText = '';
+          this._noteTitle.style.display = 'none';
+        }
+      }
+    }
+  }, {
+    key: "noteTitle",
+    set: function set(noteTitle) {
+      if (!!noteTitle) {
+        this.setAttribute('note-title', noteTitle);
+      } else {
+        this.setAttribute('note-title', '');
+      }
+    },
+    get: function get() {
+      return this.getAttribute('note-title');
+    }
+  }], [{
+    key: "observedAttributes",
+    get: function get() {
+      return ['note-title'];
+    }
+  }]);
+
+  return StickyNoteElement;
+}(_wrapNativeSuper(HTMLElement));
+
+exports.default = StickyNoteElement;
+window.customElements.define('sticky-note', StickyNoteElement);
+},{}],"node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';
 var OldModule = module.bundle.Module;
@@ -398,5 +449,5 @@ function hmrAcceptRun(bundle, id) {
     return true;
   }
 }
-},{}]},{},["node_modules/parcel-bundler/src/builtins/hmr-runtime.js","src/index.js"], null)
-//# sourceMappingURL=/src.a2b27638.js.map
+},{}]},{},["node_modules/parcel-bundler/src/builtins/hmr-runtime.js","src/stickyNote.js"], null)
+//# sourceMappingURL=/stickyNote.603e7ae6.js.map
