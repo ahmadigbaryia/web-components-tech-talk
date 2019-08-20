@@ -46,6 +46,10 @@ template.innerHTML = `
 `;
 
 export default class StickyNoteElement extends HTMLElement {
+    
+    /**
+     * Constructor, the best place to attach the shadow dom
+     */
     constructor() {
         super();
         this.attachShadow({ mode: 'open' });
@@ -54,6 +58,9 @@ export default class StickyNoteElement extends HTMLElement {
         this._noteTitle = this.shadowRoot.querySelector('#note-title');
     }
 
+    /**
+     * A callback that is triggered by the browser when the element is rendered 
+     */
     connectedCallback() {
         if (!this.hasAttribute('note-title')) {
             this._noteTitle.style.display = 'none';
@@ -73,21 +80,16 @@ export default class StickyNoteElement extends HTMLElement {
         });
     }
 
+    /**
+     * A callback that is triggered by the browser when the element is removed
+     */
     disconnectedCallback() {
         this._deleteButton.removeEventListener('click');
     }
 
-    set noteTitle(noteTitle) {
-        if (!!noteTitle) {
-            this.setAttribute('note-title', noteTitle);
-        } else {
-            this.setAttribute('note-title', '');
-        }
-    }
-    get noteTitle() {
-        return this.getAttribute('note-title');
-    }
-
+    /**
+     * A callback that is triggered by the browser when the element's attribute changes 
+     */
     attributeChangedCallback(name, oldValue, newValue) {
         if (name === 'note-title') {
             if (!!newValue) {
@@ -102,8 +104,22 @@ export default class StickyNoteElement extends HTMLElement {
         }
     }
 
+    /**
+     * An array of attributes to be observed for changes
+     */
     static get observedAttributes() {
         return ['note-title'];
+    }
+
+    set noteTitle(noteTitle) {
+        if (!!noteTitle) {
+            this.setAttribute('note-title', noteTitle);
+        } else {
+            this.setAttribute('note-title', '');
+        }
+    }
+    get noteTitle() {
+        return this.getAttribute('note-title');
     }
 }
 
