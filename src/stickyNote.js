@@ -88,7 +88,7 @@ export default class StickyNoteElement extends HTMLElement {
     }
 
     /**
-     * A callback that is triggered by the browser when the element's attribute changes 
+     * A callback that is triggered by the browser when the element's observed attribute changes 
      */
     attributeChangedCallback(name, oldValue, newValue) {
         if (name === 'note-title') {
