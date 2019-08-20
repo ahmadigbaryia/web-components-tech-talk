@@ -46,6 +46,9 @@ template.innerHTML = `
 `;
 
 export default class StickyNoteElement extends HTMLElement {
+    /**
+     * Constructor, the best place to attach the shadow dom
+     */
     constructor() {
         super();
         this.attachShadow({ mode: 'open' });
@@ -54,6 +57,9 @@ export default class StickyNoteElement extends HTMLElement {
         this._noteTitle = this.shadowRoot.querySelector('#note-title');
     }
 
+    /**
+     * A callback that is triggered by the browser when the element is rendered
+     */
     connectedCallback() {
         if (!this.hasAttribute('note-title')) {
             this._noteTitle.style.display = 'none';
@@ -73,8 +79,35 @@ export default class StickyNoteElement extends HTMLElement {
         });
     }
 
+    /**
+     * A callback that is triggered by the browser when the element is removed
+     */
     disconnectedCallback() {
         this._deleteButton.removeEventListener('click');
+    }
+
+    /**
+     * A callback that is triggered by the browser when the element's observed attribute changes
+     */
+    attributeChangedCallback(name, oldValue, newValue) {
+        if (name === 'note-title') {
+            if (!!newValue) {
+                this._noteTitle.innerText = newValue;
+                if (!oldValue) {
+                    this._noteTitle.style.display = 'block';
+                }
+            } else {
+                this._noteTitle.innerText = '';
+                this._noteTitle.style.display = 'none';
+            }
+        }
+    }
+
+    /**
+     * An array of attributes to be observed for changes
+     */
+    static get observedAttributes() {
+        return ['note-title'];
     }
 
     set noteTitle(noteTitle) {
@@ -86,24 +119,6 @@ export default class StickyNoteElement extends HTMLElement {
     }
     get noteTitle() {
         return this.getAttribute('note-title');
-    }
-
-    attributeChangedCallback(name, oldValue, newValue) {
-        if (name === 'note-title') {
-            if (!!newValue) {
-                this._noteTitle.innerText = newValue;
-                if(!oldValue) {
-                    this._noteTitle.style.display = 'block';
-                }
-            } else {
-                this._noteTitle.innerText = '';
-                this._noteTitle.style.display = 'none';
-            }
-        }
-    }
-
-    static get observedAttributes() {
-        return ['note-title'];
     }
 }
 
