@@ -1,1 +1,0 @@
-# Web Components - tech talk
