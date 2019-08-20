@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Using WC with vanillaJS</title>
+    <meta charset="UTF-8" />
+    <script src="../web-component/stickyNote.js"></script>
+  </head>
+  <body>
+    <div>
+      <button id="generateNote">Generate Note</button>
+      <div id="notes"></div>
+    </div>
+    <template id="note-template">
+      <sticky-note>
+        <span slot="note-content"></span>
+      </sticky-note>
+    </template>
+    <script src="src/notesBoard.js"></script>
+  </body>
+</html>

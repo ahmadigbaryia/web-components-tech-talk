@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html ng-app="angularjs-demo">
+  <head>
+    <title>Using WC with AngularJS</title>
+    <meta charset="UTF-8" />
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.14/angular.min.js"></script>
+    <script src="../web-component/stickyNote.js"></script>
+    <script src="src/NotesBoardController.js"></script>
+  </head>
+  <body>
+    <div ng-controller="NotesBoardController as notesBoard">
+      <button id="generateNote" ng-click="notesBoard.generateNote()">Generate Note</button>
+      <div id="notes">
+        <sticky-note ng-repeat="note in notesBoard.notes" note-title={{note.title}} id={{note.id}}>
+          <span slot="note-content">{{note.contents}}</span>
+        </sticky-note>
+      </div>
+    </div>
+  </body>
+</html>
